@@ -1,10 +1,3 @@
-// // Описаний в документації
-// import SimpleLightbox from 'simplelightbox';
-// // Додатковий імпорт стилів
-// import 'simplelightbox/dist/simple-lightbox.min.css';
-// // Add imports above this line
-// import { galleryItems } from './gallery-items';
-// // Change code below this line
 var throttle = require('lodash.throttle');
 
 console.log(throttle);
@@ -14,18 +7,17 @@ const iframe = document.querySelector('iframe');
 //console.log(iframe);
 const player = new Vimeo.Player(iframe);
 //--
+const STORAGE_KEY = 'videoplayer-current-time';
+//--
 player.on(
   'timeupdate',
   throttle(function (data) {
     console.log(data.seconds);
-    localStorage.setItem(
-      'videoplayer-current-time',
-      JSON.stringify(data.seconds)
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data.seconds));
   }, 1000)
 );
 //--
-const currentTime = localStorage.getItem('videoplayer-current-time');
+const currentTime = localStorage.getItem(STORAGE_KEY);
 console.log(currentTime);
 player
   .setCurrentTime(currentTime)
