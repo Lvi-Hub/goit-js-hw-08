@@ -18,10 +18,11 @@ function formListen(e) {
   storageData[e.target.name] = e.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
 }
-//--
+//--Submit
 function handleSubmit(e) {
   e.preventDefault();
   e.currentTarget.reset();
+  console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)));
   localStorage.removeItem(STORAGE_KEY);
 }
 
@@ -29,7 +30,7 @@ function handleSubmit(e) {
 
 function storageRestore() {
   const dataSave = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  console.log(dataSave.email);
+  //console.log(dataSave.email);
   if (dataSave) {
     ref.form.elements.email.value = dataSave.email;
     ref.form.elements.message.value = dataSave.message;
