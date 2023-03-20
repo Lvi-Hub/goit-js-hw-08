@@ -9,12 +9,13 @@ ref.form.addEventListener('submit', handleSubmit);
 ref.form.addEventListener('input', throttle(formListen, 500));
 
 //--Storage
-
 const STORAGE_KEY = 'feedback-form-state';
-const storageData = {};
+//const storageData = {};
 storageRestore();
 //--
 function formListen(e) {
+  let storageData = localStorage.getItem(STORAGE_KEY);
+  storageData = storageData ? JSON.parse(storageData) : {};
   storageData[e.target.name] = e.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(storageData));
 }
@@ -27,12 +28,22 @@ function handleSubmit(e) {
 }
 
 //--Restore
-
 function storageRestore() {
-  const dataSave = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  //console.log(dataSave.email);
+  let dataSave = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  //Variant_1
+  console.log(dataSave.email);
   if (dataSave) {
-    ref.form.elements.email.value = dataSave.email;
-    ref.form.elements.message.value = dataSave.message;
+    Object.entries(dataSave).forEach(([name, value]) => {
+      ref.form.elements[name].value = value || '';
+    });
   }
+  // Variant_2
+  // if (dataSave) {
+  //   ref.form.elements.email.value = dataSave.email || '';
+  //   ref.form.elements.message.value = dataSave.message || '';
+  //   console.log(dataSave);
+  // }
 }
+
+// Піддивився  у Репети і розібрався. Два варіанти робочі.
+// Перший кращий, перебирати можна великі об'єкти автоматично
